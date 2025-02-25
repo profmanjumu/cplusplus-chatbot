@@ -12,6 +12,9 @@ export default defineConfig({
       input: 'public/index.html',
     },
   },
+  css: {
+    postcss: './postcss.config.cjs',
+  },
   server: {
     proxy: {
       '/ask': {
