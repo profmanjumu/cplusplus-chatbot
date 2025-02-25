@@ -6,6 +6,10 @@ import os
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/', methods=['GET'])
+def home():
+    return "Backend is running!"
+
 @app.route('/ask', methods=['POST'])
 def ask():
     data = request.json
