@@ -1,9 +1,9 @@
+import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import openai
 from dotenv import load_dotenv
 import fitz  # PyMuPDF for PDF text extraction
-import os
 
 load_dotenv()
 
@@ -11,17 +11,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 CORS(app)
-
-# Serve the favicon
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'backend'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-@app.route('/', methods=['GET'])
-def home():
-    return "Backend is running!"
-
 
 # Path to the PDF file in the backend folder
 PDF_PATH = os.path.join(os.path.dirname(__file__), 'pdfs', 'assignment1.pdf')
@@ -47,6 +36,16 @@ def load_pdf_content():
 # Load the PDF content when the server starts
 load_pdf_content()
 
+# Serve the favicon
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'backend'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@app.route('/', methods=['GET'])
+def home():
+    return "Backend is running!"
+
 # Chatbot endpoint to answer questions using the entire PDF content as context
 @app.route('/ask', methods=['POST'])
 def ask():
@@ -62,12 +61,12 @@ def ask():
         context = f"PDF Content:\n{pdf_content[:10000]}\n"
 
         # Use OpenAI to answer the question with explicit reference to the PDF content
-        response = openai.ChatCompletion.create(
+        response = openai.ChatCompletion.acreate(
             model="gpt-3.5-turbo",
             messages=[{
                 "role": "user", 
                 "content": f"""
-               You are a helpful assistant for a Data Structures class. 
+                You are a helpful assistant for a Data Structures class. 
                 The following is the content of an assignment PDF. 
                 
                 1. Answer the user's question by directly referencing the PDF content. 
@@ -76,7 +75,6 @@ def ask():
                    and provide suggestions for improvement, but avoid giving full code solutions.
                 4. If the user's question is general or related to the assignment, answer fully using the PDF content.
                 5. If the user uses curse words, respond with the That kind of language is unhelpful.
-                
 
                 --- 
                 {context} 
