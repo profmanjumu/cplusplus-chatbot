@@ -27,6 +27,6 @@ dist-ssr
 .env.local
 .env.development.local
 .env.test.local
-.env.production.localbackend/.env
+.env.production.local
 backend/.env
-backend/.env
+frontend/.env

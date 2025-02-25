@@ -1,12 +1,17 @@
 {
-  "version": 2,
-  "builds": [
+  "projects": [
     {
-      "src": "backend/app.py",
-      "use": "@vercel/python"
+      "src": "frontend",
+      "buildCommand": "npm run build",
+      "outputDirectory": "dist",
+      "framework": "vite"
+    },
+    {
+      "src": "backend",
+      "buildCommand": "pip install -r requirements.txt",
+      "outputDirectory": ".",
+      "framework": "python",
+      "startCommand": "gunicorn app:app"
     }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "backend/app.py" }
   ]
 }
