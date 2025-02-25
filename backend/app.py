@@ -11,13 +11,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 CORS(app)
-@app.route("/")
-def home():
-    return "Flask Backend is Running!"
-
-@app.route("/ask", methods=["POST"])
-def ask():
-    return jsonify({"message": "This is the /ask endpoint"})
 
 # Path to the PDF file in the backend folder
 PDF_PATH = os.path.join(os.path.dirname(__file__), 'pdfs', 'assignment1.pdf')
