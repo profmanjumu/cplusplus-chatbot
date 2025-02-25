@@ -47,7 +47,7 @@ def ask():
     try:
         context = f"PDF Content:\n{pdf_content[:10000]}\n"
 
-        response = openai.ChatCompletion.acreate(
+        response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{
                 "role": "user",
@@ -74,7 +74,7 @@ def ask():
             temperature=0.5,
         )
 
-        answer = response.choices[0].message['content']
+        answer = response['choices'][0]['message']['content']
         return jsonify({'answer': answer})
     except Exception as e:
         print("Error during OpenAI API call:", e)
