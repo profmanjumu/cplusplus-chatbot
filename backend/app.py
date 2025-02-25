@@ -1,9 +1,9 @@
-import os
-from flask import Flask, request, jsonify
+ifrom flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import openai
 from dotenv import load_dotenv
 import fitz  # PyMuPDF for PDF text extraction
+import os
 
 load_dotenv()
 
@@ -11,6 +11,17 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 CORS(app)
+
+# Serve the favicon
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'backend'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@app.route('/', methods=['GET'])
+def home():
+    return "Backend is running!"
+
 
 # Path to the PDF file in the backend folder
 PDF_PATH = os.path.join(os.path.dirname(__file__), 'pdfs', 'assignment1.pdf')
