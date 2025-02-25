@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ChatInput from './ChatInput';
 import ChatMessage from './ChatMessage';
-
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const ChatWindow = () => {
   const [messages, setMessages] = useState([]);
 
@@ -10,11 +10,13 @@ const ChatWindow = () => {
     setMessages((prev) => [...prev, { text: message, isUser: true }]);
 
     try {
-      const response = await fetch('http://localhost:5000/ask', {
+      const response = await fetch(`${API_URL}/ask`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: message }),
-      });
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question }),
+    });
 
       if (!response.ok) {
         throw new Error('Failed to fetch response from the server.');
