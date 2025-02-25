@@ -47,11 +47,9 @@ def ask():
     try:
         context = f"PDF Content:\n{pdf_content[:10000]}\n"
 
-        response = openai.ChatCompletion.create(
+        response = openai.Completion.create(
             model="gpt-3.5-turbo",
-            messages=[{
-                "role": "user",
-                "content": f"""
+            prompt=f"""
                 You are a helpful assistant for a Data Structures class. 
                 The following is the content of an assignment PDF. 
                 
@@ -67,14 +65,13 @@ def ask():
                 --- 
 
                 User Question: {question}
-                """
-            }],
+            """,
             max_tokens=500,
             n=1,
             temperature=0.5,
         )
 
-        answer = response['choices'][0]['message']['content']
+        answer = response.choices[0].text.strip()
         return jsonify({'answer': answer})
     except Exception as e:
         print("Error during OpenAI API call:", e)
