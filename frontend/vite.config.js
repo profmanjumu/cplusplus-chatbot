@@ -4,9 +4,16 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    outDir: 'dist', // Ensure the output directory is set correctly
+  },
   server: {
-    hmr: {
-      overlay: false,
+    proxy: {
+      '/ask': {
+        target: 'https://cplusplus-chatbot-backend.vercel.app',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });
